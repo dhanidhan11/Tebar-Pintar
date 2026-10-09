@@ -1,0 +1,890 @@
+<!doctype html>
+<html lang="id" class="scroll-smooth">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>TebarPintar — Ekosistem IoT Akuakultur & Strategi Pemasaran Digital</title>
+    <meta name="description"
+        content="TebarPintar: Ekosistem IoT Pemberi Pakan Otomatis untuk Budidaya Ikan Indonesia. Hemat pakan 10–15%, panen lebih cepat, kolam bisa ditinggal." />
+
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+        href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&family=Plus+Jakarta+Sans:wght@400;500;600;700&family=Syne:wght@600;700;800&display=swap"
+        rel="stylesheet" />
+
+    <!-- Tailwind CDN v4 -->
+    <script src="https://unpkg.com/@tailwindcss/browser@4"></script>
+
+    <style>
+        :root {
+            --font-sans: 'Plus Jakarta Sans', sans-serif;
+            --font-display: 'Syne', sans-serif;
+            --font-mono: 'IBM Plex Mono', monospace;
+        }
+
+        body {
+            font-family: var(--font-sans);
+        }
+
+        .font-display {
+            font-family: var(--font-display);
+        }
+
+        .font-mono {
+            font-family: var(--font-mono);
+        }
+
+        .hidden-page {
+            display: none !important;
+        }
+
+        /* Nav active state */
+        .nav-btn.active {
+            color: #0D6E52;
+            font-weight: 700;
+            text-decoration: underline;
+            text-decoration-color: #0D6E52;
+            text-decoration-thickness: 2px;
+            text-underline-offset: 8px;
+        }
+
+        /* Smooth fade for page sections */
+        .page-section {
+            animation: fadeIn 0.3s ease-in-out;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(8px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* Mobile nav */
+        #mobile-menu {
+            transition: max-height 0.3s ease, opacity 0.3s ease;
+            max-height: 0;
+            opacity: 0;
+            overflow: hidden;
+        }
+
+        #mobile-menu.open {
+            max-height: 400px;
+            opacity: 1;
+        }
+    </style>
+
+    <!-- Three.js -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+</head>
+
+<body
+    class="bg-[#F6F6F2] text-[#11181C] antialiased selection:bg-[#0D6E52] selection:text-white min-h-screen flex flex-col">
+
+    <!-- ===== HEADER ===== -->
+    <header
+        class="sticky top-0 z-40 flex items-center justify-between px-6 lg:px-10 py-4 bg-[#F6F6F2]/95 backdrop-blur-md border-b border-stone-200/90">
+        <button id="logo-btn" onclick="navigateTo('page-ringkasan-pasar')"
+            class="text-xl font-bold tracking-tight text-stone-900 font-display text-left cursor-pointer hover:text-[#0D6E52] transition-colors">
+            TebarPintar
+        </button>
+
+        <!-- Desktop Nav -->
+        <nav class="hidden lg:flex items-center gap-1 text-sm font-medium text-stone-600" id="desktop-nav">
+            <button data-target="page-ringkasan-pasar" onclick="navigateTo('page-ringkasan-pasar')"
+                class="nav-btn px-3 py-2 rounded-lg hover:text-[#0D6E52] transition-colors cursor-pointer bg-transparent border-0">Ringkasan
+                & Pasar</button>
+            <button data-target="page-produk-3d" onclick="navigateTo('page-produk-3d')"
+                class="nav-btn px-3 py-2 rounded-lg hover:text-[#0D6E52] transition-colors cursor-pointer bg-transparent border-0">Studio
+                3D</button>
+            <button data-target="page-gtm" onclick="navigateTo('page-gtm')"
+                class="nav-btn px-3 py-2 rounded-lg hover:text-[#0D6E52] transition-colors cursor-pointer bg-transparent border-0">Strategi
+                GTM</button>
+            <button data-target="page-risiko" onclick="navigateTo('page-risiko')"
+                class="nav-btn px-3 py-2 rounded-lg hover:text-[#0D6E52] transition-colors cursor-pointer bg-transparent border-0">Mitigasi
+                Risiko</button>
+        </nav>
+
+        <div class="flex items-center gap-2.5">
+            <!-- Shopee Icon -->
+            <a href="#" class="text-stone-600 hover:text-[#EE4D2D] transition-colors" title="Shopee">
+                <svg class="w-6 h-6" viewBox="0 0 24 24" fill="currentColor">
+                    <path d="M19 6h-2c0-2.76-2.24-5-5-5S7 3.24 7 6H5c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V8c0-1.1-.9-2-2-2zm-7-3c1.66 0 3 1.34 3 3H9c0-1.66 1.34-3 3-3zm7 17H5V8h14v12zm-7-8c-1.66 0-3-1.34-3-3H7c0 2.76 2.24 5 5 5s5-2.24 5-5h-2c0 1.66-1.34 3-3 3z"/>
+                </svg>
+            </a>
+            <!-- TikTok Icon -->
+            <a href="#" class="text-stone-600 hover:text-black transition-colors" title="TikTok">
+                <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+                    <path d="M19.59 6.69a4.83 4.83 0 0 1-3.77-4.25V2h-3.45v13.67a2.89 2.89 0 0 1-5.2 1.74 2.89 2.89 0 0 1 2.31-4.64 2.93 2.93 0 0 1 .88.13V9.4a6.84 6.84 0 0 0-1-.05A6.33 6.33 0 0 0 5 20.1a6.34 6.34 0 0 0 10.86-4.43v-7a8.16 8.16 0 0 0 4.77 1.52v-3.4a4.85 4.85 0 0 1-1-.1z"/>
+                </svg>
+            </a>
+            <button onclick="toggleInvestorModal()"
+                class="inline-flex items-center gap-2 px-4 py-2 text-xs font-semibold text-white bg-[#0D6E52] rounded-lg hover:bg-[#0a5841] transition-colors cursor-pointer">
+                Investor Data Room
+            </button>
+            <!-- Mobile hamburger -->
+            <button onclick="toggleMobileMenu()"
+                class="lg:hidden p-2 rounded-lg text-stone-600 hover:bg-stone-100 transition-colors" aria-label="Menu">
+                <svg id="hamburger-icon" class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
+                </svg>
+            </button>
+        </div>
+    </header>
+
+    <!-- Mobile Menu -->
+    <div id="mobile-menu" class="lg:hidden bg-white border-b border-stone-200 px-6">
+        <div class="py-3 flex flex-col gap-1">
+            <button data-target="page-ringkasan-pasar" onclick="navigateTo('page-ringkasan-pasar'); toggleMobileMenu()"
+                class="nav-btn text-left px-3 py-2.5 rounded-lg text-sm font-medium text-stone-600 hover:text-[#0D6E52] hover:bg-stone-50 transition-colors bg-transparent border-0 w-full">Ringkasan
+                & Pasar</button>
+            <button data-target="page-produk-3d" onclick="navigateTo('page-produk-3d'); toggleMobileMenu()"
+                class="nav-btn text-left px-3 py-2.5 rounded-lg text-sm font-medium text-stone-600 hover:text-[#0D6E52] hover:bg-stone-50 transition-colors bg-transparent border-0 w-full">Studio
+                3D</button>
+            <button data-target="page-gtm" onclick="navigateTo('page-gtm'); toggleMobileMenu()"
+                class="nav-btn text-left px-3 py-2.5 rounded-lg text-sm font-medium text-stone-600 hover:text-[#0D6E52] hover:bg-stone-50 transition-colors bg-transparent border-0 w-full">Strategi
+                GTM</button>
+            <button data-target="page-risiko" onclick="navigateTo('page-risiko'); toggleMobileMenu()"
+                class="nav-btn text-left px-3 py-2.5 rounded-lg text-sm font-medium text-stone-600 hover:text-[#0D6E52] hover:bg-stone-50 transition-colors bg-transparent border-0 w-full">Mitigasi
+                Risiko</button>
+        </div>
+    </div>
+
+    <!-- Sub-header -->
+    <div class="border-b border-stone-200/80 bg-[#EFEFE9]/70 px-6 lg:px-10 py-3">
+        <div class="max-w-[1280px] mx-auto flex flex-wrap items-center justify-between gap-2 text-xs text-stone-600">
+            <div class="flex flex-wrap items-center gap-x-2.5 gap-y-1">
+                <span>•</span>
+                <span>Target Retensi Langganan: &gt;70%</span>
+            </div>
+            <div class="font-mono text-xs text-[#0D6E52] font-semibold tabular-nums" id="page-indicator">Halaman 1 / 4
+            </div>
+        </div>
+    </div>
+
+    <!-- ===== MAIN CONTENT ===== -->
+    <main class="flex-1 max-w-[1280px] w-full mx-auto px-6 lg:px-10 py-10" id="main-content">
+
+        <!-- ================================================ -->
+        <!-- PAGE 1: Ringkasan & Pasar                        -->
+        <!-- ================================================ -->
+        <div id="page-ringkasan-pasar" class="page-section space-y-16">
+
+            <!-- HERO -->
+            <section>
+                <div class="grid grid-cols-1 lg:grid-cols-12 gap-10 items-center">
+                    <div class="lg:col-span-8 space-y-6">
+                        <div class="font-mono text-xs font-semibold tracking-wider text-[#0D6E52] uppercase">
+                            INDONESIA AQUACULTURE IOT ECOSYSTEM
+                        </div>
+                        <h1
+                            class="text-4xl sm:text-6xl font-bold tracking-tight text-stone-950 font-display leading-[1.1]">
+                            TebarPintar: Ekosistem IoT Pemberi Pakan Otomatis untuk Budidaya Ikan Indonesia.
+                        </h1>
+                        <p class="text-lg text-stone-700 leading-relaxed max-w-2xl">
+                            Nilai jual utama kami terbukti secara berkala: <strong
+                                class="font-bold text-stone-950 bg-emerald-50 px-1 rounded">"Hemat pakan 10–15%, panen
+                                lebih cepat,
+                                kolam bisa ditinggal."</strong> Janji ini divalidasi langsung melalui data riil dari
+                            kolam kontrol.
+                        </p>
+                        <div class="flex flex-wrap items-center gap-4">
+                            <button onclick="navigateTo('page-produk-3d')"
+                                class="inline-flex items-center gap-2 px-5 py-3 text-sm font-semibold text-white bg-[#0D6E52] rounded-lg hover:bg-[#0a5841] transition-colors cursor-pointer">
+                                Buka Studio 3D Design
+                            </button>
+                            <button onclick="navigateTo('page-gtm')"
+                                class="inline-flex items-center gap-2 px-5 py-3 text-sm font-semibold text-stone-700 bg-white border border-stone-200 rounded-lg hover:bg-stone-50 transition-colors cursor-pointer">
+                                Lihat Strategi GTM
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Summary Card -->
+                    <div class="lg:col-span-4 bg-white p-6 rounded-xl border border-stone-200 shadow-sm space-y-4">
+                        <h3 class="font-display font-bold text-lg text-stone-900">Ringkasan Ekosistem</h3>
+                        <p class="text-sm text-stone-600">Integrasi 3 komponen utama otomasi tambak modern:</p>
+                        <ul class="space-y-3 text-sm font-medium text-stone-700">
+                            <li class="flex items-start gap-2"><span class="text-[#0D6E52] mt-0.5">✓</span> Hardware
+                                Pemberi Pakan
+                                Otomatis</li>
+                            <li class="flex items-start gap-2"><span class="text-[#0D6E52] mt-0.5">✓</span> Multi-Sensor
+                                Kualitas Air
+                                Real-time</li>
+                            <li class="flex items-start gap-2"><span class="text-[#0D6E52] mt-0.5">✓</span> Aplikasi
+                                Analitik
+                                Prediktif berbasis Cloud</li>
+                        </ul>
+                        <div class="pt-3 border-t border-stone-100 space-y-2">
+                            <div class="text-xs font-mono text-stone-500">TARGET 36 BULAN</div>
+                            <div class="text-2xl font-bold font-mono text-[#0D6E52]">± Rp 3,6 M/bln</div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Problem / Solution -->
+            <section class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                <div class="bg-red-50/60 p-8 rounded-xl border border-red-100 space-y-3">
+                    <span class="text-xs font-mono text-red-600 font-bold">THE PROBLEM</span>
+                    <h2 class="text-xl font-bold font-display text-stone-950">Inefisiensi Pakan & Keterikatan Fisik</h2>
+                    <p class="text-sm text-stone-700 leading-relaxed">
+                        Biaya pakan menyumbang <strong>60–70% total pengeluaran</strong> budidaya. Pola manual dan
+                        spekulatif memicu
+                        pemborosan ekstrem, disparitas ukuran ikan, degradasi kualitas air, serta ketidakmampuan
+                        pembudidaya
+                        meninggalkan kolam.
+                    </p>
+                </div>
+                <div class="bg-emerald-50/60 p-8 rounded-xl border border-emerald-100 space-y-3">
+                    <span class="text-xs font-mono text-emerald-600 font-bold">THE SOLUTION</span>
+                    <h2 class="text-xl font-bold font-display text-stone-950">Otomasi Terjadwal & Rekomendasi Data</h2>
+                    <p class="text-sm text-stone-700 leading-relaxed">
+                        Pakan didistribusikan otomatis berdasarkan interval presisi dan respons nafsu makan ikan.
+                        Parameter vital
+                        dipantau via aplikasi seluler dengan rekomendasi berbasis data FCR mutakhir.
+                    </p>
+                </div>
+            </section>
+
+            <!-- Market Segments -->
+            <section class="space-y-6">
+                <div>
+                    <span class="text-xs font-mono text-[#0D6E52] font-semibold">MARKET POTENTIAL</span>
+                    <h2 class="text-2xl sm:text-3xl font-bold text-stone-950 font-display mt-1">Segmentasi Pasar
+                        Akuakultur</h2>
+                    <p class="text-sm text-stone-600 mt-1">Analisis potensi digitalisasi berdasarkan klaster pembudidaya
+                        nasional
+                        (Data KKP & BPS).</p>
+                </div>
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                    <div class="bg-white p-6 rounded-xl border border-stone-200 hover:shadow-md transition-shadow">
+                        <div class="font-bold text-lg text-stone-950 mb-1">UMKM Kolam Air Tawar</div>
+                        <div class="text-xs font-mono text-slate-500 mb-3">Lele, Nila, Patin</div>
+                        <p class="text-sm text-stone-600 mb-4">Volume masif, sensitif harga, butuh bukti riil di
+                            lapangan.</p>
+                        <span
+                            class="inline-block text-xs font-mono bg-stone-100 text-stone-700 px-2 py-1 rounded font-bold">Mesin
+                            Volume Penjualan</span>
+                    </div>
+                    <div
+                        class="bg-white p-6 rounded-xl border border-[#0D6E52]/30 hover:shadow-md transition-shadow ring-1 ring-[#0D6E52]/10">
+                        <div class="font-bold text-lg text-stone-950 mb-1">Segmentasi Hobiis</div>
+                        <div class="text-xs font-mono text-slate-500 mb-3">Koi, Arwana, Aquascape</div>
+                        <p class="text-sm text-stone-600 mb-4">Profit margin tinggi, mudah dijangkau via ekosistem
+                            digital.</p>
+                        <span
+                            class="inline-block text-xs font-mono bg-emerald-50 text-[#0D6E52] px-2 py-1 rounded font-bold">Mesin
+                            Margin & Ekuitas Merek</span>
+                    </div>
+                    <div class="bg-white p-6 rounded-xl border border-stone-200 hover:shadow-md transition-shadow">
+                        <div class="font-bold text-lg text-stone-950 mb-1">Skala Industri & Instansi</div>
+                        <div class="text-xs font-mono text-slate-500 mb-3">Tambak, Farm Besar, Dinas, Koperasi</div>
+                        <p class="text-sm text-stone-600 mb-4">Transaksi bernilai besar, siklus panjang, butuh
+                            akreditasi formal.
+                        </p>
+                        <span
+                            class="inline-block text-xs font-mono bg-blue-50 text-blue-700 px-2 py-1 rounded font-bold">Ekspansi
+                            B2G & B2B</span>
+                    </div>
+                </div>
+            </section>
+
+            <!-- KPI Metrics -->
+            <section class="space-y-6">
+                <div>
+                    <span class="text-xs font-mono text-[#0D6E52] font-semibold">KEY METRICS</span>
+                    <h2 class="text-2xl sm:text-3xl font-bold text-stone-950 font-display mt-1">Indikator Kinerja Utama
+                    </h2>
+                </div>
+                <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
+                    <div class="bg-white p-5 rounded-xl border border-stone-200 text-center">
+                        <div class="text-3xl font-bold font-mono text-[#0D6E52]">15%</div>
+                        <div class="text-xs text-stone-500 mt-1">Hemat Biaya Pakan</div>
+                    </div>
+                    <div class="bg-white p-5 rounded-xl border border-stone-200 text-center">
+                        <div class="text-3xl font-bold font-mono text-stone-950">70%</div>
+                        <div class="text-xs text-stone-500 mt-1">Target Retensi Pelanggan</div>
+                    </div>
+                    <div class="bg-white p-5 rounded-xl border border-stone-200 text-center">
+                        <div class="text-3xl font-bold font-mono text-[#0D6E52]">3.6M</div>
+                        <div class="text-xs text-stone-500 mt-1">Target MRR (Rp/bln)</div>
+                    </div>
+                    <div class="bg-white p-5 rounded-xl border border-stone-200 text-center">
+                        <div class="text-3xl font-bold font-mono text-stone-950">36</div>
+                        <div class="text-xs text-stone-500 mt-1">Bulan Roadmap</div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- CTA ke halaman lain -->
+            <section class="bg-gradient-to-br from-[#0D6E52] to-[#0a5841] rounded-2xl p-8 md:p-12 text-white">
+                <div class="flex flex-col md:flex-row md:items-center justify-between gap-6">
+                    <div class="space-y-2">
+                        <h2 class="text-2xl font-bold font-display">Selanjutnya: Lihat Produk Kami secara 3D</h2>
+                        <p class="text-emerald-100 text-sm">Jelajahi hardware TebarPintar Pro & Lite secara interaktif
+                            langsung di
+                            browser Anda.</p>
+                    </div>
+                    <button onclick="navigateTo('page-produk-3d')"
+                        class="flex-shrink-0 inline-flex items-center gap-2 px-6 py-3 text-sm font-semibold text-[#0D6E52] bg-white rounded-lg hover:bg-emerald-50 transition-colors cursor-pointer">
+                        Studio 3D →
+                    </button>
+                </div>
+            </section>
+
+        </div><!-- /page-ringkasan-pasar -->
+
+
+        <!-- ================================================ -->
+        <!-- PAGE 2: Studio 3D                               -->
+        <!-- ================================================ -->
+        <div id="page-produk-3d" class="page-section space-y-12 hidden-page">
+            <section>
+                <div class="flex flex-col md:flex-row md:items-end justify-between gap-4 mb-6">
+                    <div>
+                        <div class="text-xs font-mono text-[#0D6E52] font-semibold">BAB 03 · PRODUK & KEUNGGULAN
+                            KOMPETITIF (MOAT)
+                        </div>
+                        <h1 class="text-3xl sm:text-4xl font-bold text-stone-950 mt-1 font-display">Studio 3D Interaktif
+                            —
+                            TebarPintar Pro & Lite</h1>
+                    </div>
+                </div>
+
+                <!-- 3D Container -->
+                <div class="bg-[#0E1518] text-[#F3F5F4] rounded-xl border border-white/10 overflow-hidden relative">
+                    <div
+                        class="flex flex-wrap items-center justify-between gap-4 px-6 py-4 border-b border-white/10 bg-[#131C20] relative z-20">
+                        <div class="flex items-center gap-3">
+                            <span class="font-mono text-xs text-emerald-400">INSPEKSI HARDWARE 3D REAL-TIME</span>
+                        </div>
+                        <div class="flex items-center gap-1 p-1 bg-black/40 rounded-lg border border-white/10">
+                            <button id="btn-model-pro" onclick="window.setModel && window.setModel('Pro')"
+                                class="px-3.5 py-1.5 text-xs font-medium rounded-md bg-[#0D6E52] text-white transition-colors">TebarPintar
+                                Pro</button>
+                            <button id="btn-model-lite" onclick="window.setModel && window.setModel('Lite')"
+                                class="px-3.5 py-1.5 text-xs font-medium rounded-md text-slate-300 hover:text-white transition-colors">TebarPintar
+                                Lite</button>
+                        </div>
+                    </div>
+
+                    <!-- WebGL Canvas -->
+                    <div id="canvas-container"
+                        class="w-full h-[500px] cursor-grab active:cursor-grabbing relative z-10"></div>
+
+                    <!-- HUD Overlays -->
+                    <div class="absolute inset-0 pointer-events-none z-20 top-16 flex flex-col justify-between p-4">
+                        <div
+                            class="bg-black/55 backdrop-blur-md border border-white/10 rounded-lg px-4 py-3 pointer-events-auto self-start">
+                            <div id="hud-title" class="text-lg font-bold text-white font-display">TebarPintar Pro</div>
+                            <div id="hud-sub" class="text-xs text-slate-400 mt-0.5">Drag untuk memutar · Scroll untuk
+                                zoom</div>
+                        </div>
+                        <div class="self-end flex gap-2 pointer-events-auto">
+                            <button id="btn-explode" onclick="window.toggleExplode && window.toggleExplode()"
+                                class="px-4 py-2 bg-slate-800 rounded-lg text-xs font-medium hover:bg-slate-700 transition-colors">💥
+                                Exploded View</button>
+                            <button id="btn-feed" onclick="window.triggerFeed && window.triggerFeed()"
+                                class="px-4 py-2 bg-emerald-600 rounded-lg text-xs font-medium hover:bg-emerald-500 transition-colors">🐟
+                                Uji Lontar Pakan</button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Specs below 3D -->
+                <div class="mt-6 grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <div class="bg-white p-6 rounded-xl border border-stone-200 space-y-3">
+                        <div class="font-mono text-xs text-[#0D6E52] font-bold">TEBARPINTAR PRO</div>
+                        <h3 class="text-lg font-bold font-display text-stone-950">Solusi Tambak Profesional</h3>
+                        <ul class="space-y-2 text-sm text-stone-600">
+                            <li class="flex gap-2"><span class="text-[#0D6E52]">✓</span> Kapasitas pakan hingga 50 kg
+                            </li>
+                            <li class="flex gap-2"><span class="text-[#0D6E52]">✓</span> 6 sensor kualitas air
+                                terintegrasi</li>
+                            <li class="flex gap-2"><span class="text-[#0D6E52]">✓</span> Konektivitas LoRa + WiFi + 4G
+                            </li>
+                            <li class="flex gap-2"><span class="text-[#0D6E52]">✓</span> Panel surya opsional (off-grid
+                                ready)</li>
+                        </ul>
+                    </div>
+                    <div class="bg-white p-6 rounded-xl border border-stone-200 space-y-3">
+                        <div class="font-mono text-xs text-slate-500 font-bold">TEBARPINTAR LITE</div>
+                        <h3 class="text-lg font-bold font-display text-stone-950">Solusi Kolam Rumahan</h3>
+                        <ul class="space-y-2 text-sm text-stone-600">
+                            <li class="flex gap-2"><span class="text-stone-400">✓</span> Kapasitas pakan hingga 10 kg
+                            </li>
+                            <li class="flex gap-2"><span class="text-stone-400">✓</span> 2 sensor dasar (pH + suhu)</li>
+                            <li class="flex gap-2"><span class="text-stone-400">✓</span> Konektivitas WiFi</li>
+                            <li class="flex gap-2"><span class="text-stone-400">✓</span> Harga terjangkau, setup mudah
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </section>
+
+            <!-- CTA -->
+            <div class="flex flex-wrap gap-4 justify-center pt-4">
+                <button onclick="navigateTo('page-ringkasan-pasar')"
+                    class="px-5 py-2.5 text-sm font-semibold text-stone-600 border border-stone-200 rounded-lg bg-white hover:bg-stone-50 transition-colors cursor-pointer">←
+                    Kembali ke Ringkasan</button>
+                <button onclick="navigateTo('page-gtm')"
+                    class="px-5 py-2.5 text-sm font-semibold text-white bg-[#0D6E52] rounded-lg hover:bg-[#0a5841] transition-colors cursor-pointer">Strategi
+                    GTM →</button>
+            </div>
+        </div><!-- /page-produk-3d -->
+
+
+        <!-- ================================================ -->
+        <!-- PAGE 3: Strategi GTM                            -->
+        <!-- ================================================ -->
+        <div id="page-gtm" class="page-section space-y-12 hidden-page">
+            <section>
+                <div class="text-xs font-mono text-[#0D6E52] font-semibold">BAB 04 · GO-TO-MARKET STRATEGY</div>
+                <h1 class="text-3xl sm:text-4xl font-bold text-stone-950 mt-1 font-display">Strategi Pemasaran Digital
+                    TebarPintar</h1>
+                <p class="text-stone-600 mt-3 max-w-2xl">Pendekatan multi-channel yang menggabungkan konten edukasi,
+                    komunitas
+                    pembudidaya, dan platform e-commerce untuk membangun kepercayaan dan mempercepat adopsi.</p>
+            </section>
+
+            <!-- GTM Channels -->
+            <section class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                <div
+                    class="bg-white p-6 rounded-xl border border-stone-200 space-y-3 hover:shadow-md transition-shadow">
+                    <div class="text-2xl"></div>
+                    <div class="font-mono text-xs text-[#0D6E52] font-bold">CHANNEL 01</div>
+                    <h3 class="font-bold text-stone-950 font-display">TikTok & Reels</h3>
+                    <p class="text-sm text-stone-600">Konten edukasi "sebelum vs sesudah" yang viral di kalangan
+                        pembudidaya muda.
+                        Target: 10.000+ view organik per video.</p>
+                </div>
+                <div
+                    class="bg-white p-6 rounded-xl border border-stone-200 space-y-3 hover:shadow-md transition-shadow">
+                    <div class="text-2xl"></div>
+                    <div class="font-mono text-xs text-[#0D6E52] font-bold">CHANNEL 02</div>
+                    <h3 class="font-bold text-stone-950 font-display">Shopee & Tokopedia</h3>
+                    <p class="text-sm text-stone-600">Official store dengan flash sale bulanan, bundling paket starter,
+                        dan
+                        program cicilan 0% untuk meningkatkan aksesibilitas.</p>
+                </div>
+                <div
+                    class="bg-white p-6 rounded-xl border border-stone-200 space-y-3 hover:shadow-md transition-shadow">
+                    <div class="text-2xl"></div>
+                    <div class="font-mono text-xs text-[#0D6E52] font-bold">CHANNEL 03</div>
+                    <h3 class="font-bold text-stone-950 font-display">Komunitas & KOL</h3>
+                    <p class="text-sm text-stone-600">Kolaborasi dengan YouTuber dan komunitas pembudidaya. Program
+                        reseller
+                        dengan margin menarik untuk agen lokal.</p>
+                </div>
+                <div
+                    class="bg-white p-6 rounded-xl border border-stone-200 space-y-3 hover:shadow-md transition-shadow">
+                    <div class="text-2xl"></div>
+                    <div class="font-mono text-xs text-[#0D6E52] font-bold">CHANNEL 04</div>
+                    <h3 class="font-bold text-stone-950 font-display">B2G & Dinas</h3>
+                    <p class="text-sm text-stone-600">Kemitraan dengan Dinas Perikanan dan program CSR perusahaan tambak
+                        besar
+                        untuk pengadaan massal.</p>
+                </div>
+                <div
+                    class="bg-white p-6 rounded-xl border border-stone-200 space-y-3 hover:shadow-md transition-shadow">
+                    <div class="text-2xl"></div>
+                    <div class="font-mono text-xs text-[#0D6E52] font-bold">CHANNEL 05</div>
+                    <h3 class="font-bold text-stone-950 font-display">WhatsApp & CRM</h3>
+                    <p class="text-sm text-stone-600">Nurturing leads via broadcast WA, follow-up otomatis pasca demo
+                        gratis, dan
+                        loyalty program berbasis poin langganan.</p>
+                </div>
+                <div
+                    class="bg-white p-6 rounded-xl border border-stone-200 space-y-3 hover:shadow-md transition-shadow">
+                    <div class="text-2xl"></div>
+                    <div class="font-mono text-xs text-[#0D6E52] font-bold">CHANNEL 06</div>
+                    <h3 class="font-bold text-stone-950 font-display">Pilot Program</h3>
+                    <p class="text-sm text-stone-600">Trial 30 hari gratis untuk pembudidaya terpilih. Data sukses pilot
+                        dijadikan
+                        social proof utama untuk akuisisi selanjutnya.</p>
+                </div>
+            </section>
+
+            <!-- Funnel -->
+            <section class="space-y-4">
+                <div>
+                    <span class="text-xs font-mono text-[#0D6E52] font-semibold">CUSTOMER FUNNEL</span>
+                    <h2 class="text-2xl font-bold text-stone-950 font-display mt-1">Alur Akuisisi Pelanggan</h2>
+                </div>
+                <div class="flex flex-col md:flex-row gap-0 md:gap-0">
+                    <div class="flex-1 bg-[#0D6E52] text-white p-5 md:rounded-l-xl text-center">
+                        <div class="font-bold font-display text-lg">AWARE</div>
+                        <div class="text-xs text-emerald-200 mt-1">TikTok · YouTube · WOM</div>
+                    </div>
+                    <div
+                        class="flex-1 bg-[#0a5841] text-white p-5 text-center border-t md:border-t-0 md:border-l border-white/10">
+                        <div class="font-bold font-display text-lg">INTEREST</div>
+                        <div class="text-xs text-emerald-200 mt-1">Demo Gratis · Showcase Kolam</div>
+                    </div>
+                    <div
+                        class="flex-1 bg-[#094a38] text-white p-5 text-center border-t md:border-t-0 md:border-l border-white/10">
+                        <div class="font-bold font-display text-lg">TRIAL</div>
+                        <div class="text-xs text-emerald-200 mt-1">Pilot 30 Hari · Pendampingan</div>
+                    </div>
+                    <div
+                        class="flex-1 bg-[#073d2e] text-white p-5 text-center border-t md:border-t-0 md:border-l border-white/10">
+                        <div class="font-bold font-display text-lg">PURCHASE</div>
+                        <div class="text-xs text-emerald-200 mt-1">Cicilan · Shopee · Langsung</div>
+                    </div>
+                    <div
+                        class="flex-1 bg-[#05311f] text-white p-5 md:rounded-r-xl text-center border-t md:border-t-0 md:border-l border-white/10">
+                        <div class="font-bold font-display text-lg">RETAIN</div>
+                        <div class="text-xs text-emerald-200 mt-1">Langganan SaaS · Komunitas</div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- CTA -->
+            <div class="flex flex-wrap gap-4 justify-center pt-4">
+                <button onclick="navigateTo('page-produk-3d')"
+                    class="px-5 py-2.5 text-sm font-semibold text-stone-600 border border-stone-200 rounded-lg bg-white hover:bg-stone-50 transition-colors cursor-pointer">←
+                    Studio 3D</button>
+                <button onclick="navigateTo('page-risiko')"
+                    class="px-5 py-2.5 text-sm font-semibold text-white bg-[#0D6E52] rounded-lg hover:bg-[#0a5841] transition-colors cursor-pointer">Mitigasi
+                    Risiko →</button>
+            </div>
+        </div><!-- /page-gtm -->
+
+
+        <!-- ================================================ -->
+        <!-- PAGE 4: Mitigasi Risiko                         -->
+        <!-- ================================================ -->
+        <div id="page-risiko" class="page-section space-y-12 hidden-page">
+            <section>
+                <div class="text-xs font-mono text-[#0D6E52] font-semibold">BAB 05 · MANAJEMEN RISIKO</div>
+                <h1 class="text-3xl sm:text-4xl font-bold text-stone-950 mt-1 font-display">Analisis & Mitigasi Risiko
+                    Bisnis
+                </h1>
+                <p class="text-stone-600 mt-3 max-w-2xl">Identifikasi risiko kritis dan strategi mitigasi proaktif untuk
+                    memastikan keberlanjutan dan skalabilitas bisnis TebarPintar.</p>
+            </section>
+
+            <!-- Risk Matrix -->
+            <section class="space-y-4">
+                <div>
+                    <span class="text-xs font-mono text-[#0D6E52] font-semibold">RISK REGISTRY</span>
+                    <h2 class="text-2xl font-bold text-stone-950 font-display mt-1">Matrix Risiko & Mitigasi</h2>
+                </div>
+                <div class="overflow-x-auto">
+                    <table class="w-full text-sm border-collapse">
+                        <thead>
+                            <tr class="bg-stone-100 text-stone-700">
+                                <th class="text-left px-4 py-3 font-mono text-xs font-bold rounded-tl-lg">RISIKO</th>
+                                <th class="text-left px-4 py-3 font-mono text-xs font-bold">KATEGORI</th>
+                                <th class="text-left px-4 py-3 font-mono text-xs font-bold">DAMPAK</th>
+                                <th class="text-left px-4 py-3 font-mono text-xs font-bold rounded-tr-lg">MITIGASI</th>
+                            </tr>
+                        </thead>
+                        <tbody class="divide-y divide-stone-100">
+                            <tr class="bg-white hover:bg-stone-50 transition-colors">
+                                <td class="px-4 py-4 font-medium text-stone-900">Adopsi lambat oleh pembudidaya
+                                    tradisional</td>
+                                <td class="px-4 py-4"><span
+                                        class="bg-orange-100 text-orange-700 text-xs font-mono px-2 py-0.5 rounded">PASAR</span>
+                                </td>
+                                <td class="px-4 py-4 text-orange-600 font-bold">TINGGI</td>
+                                <td class="px-4 py-4 text-stone-600">Pilot program gratis + pendampingan intensif + ROI
+                                    calculator
+                                    transparan</td>
+                            </tr>
+                            <tr class="bg-white hover:bg-stone-50 transition-colors">
+                                <td class="px-4 py-4 font-medium text-stone-900">Persaingan dari pemain besar / impor
+                                    murah</td>
+                                <td class="px-4 py-4"><span
+                                        class="bg-red-100 text-red-700 text-xs font-mono px-2 py-0.5 rounded">KOMPETISI</span>
+                                </td>
+                                <td class="px-4 py-4 text-red-600 font-bold">KRITIS</td>
+                                <td class="px-4 py-4 text-stone-600">Diferensiasi via ekosistem terintegrasi (hardware +
+                                    SaaS) dan
+                                    layanan purna jual lokal</td>
+                            </tr>
+                            <tr class="bg-white hover:bg-stone-50 transition-colors">
+                                <td class="px-4 py-4 font-medium text-stone-900">Ketergantungan komponen impor (chip,
+                                    sensor)</td>
+                                <td class="px-4 py-4"><span
+                                        class="bg-blue-100 text-blue-700 text-xs font-mono px-2 py-0.5 rounded">SUPPLY
+                                        CHAIN</span></td>
+                                <td class="px-4 py-4 text-blue-600 font-bold">SEDANG</td>
+                                <td class="px-4 py-4 text-stone-600">Buffer stock 3 bulan + 2 supplier alternatif per
+                                    komponen kritis
+                                </td>
+                            </tr>
+                            <tr class="bg-white hover:bg-stone-50 transition-colors">
+                                <td class="px-4 py-4 font-medium text-stone-900">Konektivitas internet terbatas di
+                                    daerah</td>
+                                <td class="px-4 py-4"><span
+                                        class="bg-purple-100 text-purple-700 text-xs font-mono px-2 py-0.5 rounded">TEKNIS</span>
+                                </td>
+                                <td class="px-4 py-4 text-orange-600 font-bold">TINGGI</td>
+                                <td class="px-4 py-4 text-stone-600">Mode offline-first + LoRa mesh networking untuk
+                                    area tanpa sinyal
+                                    4G</td>
+                            </tr>
+                            <tr class="bg-white hover:bg-stone-50 transition-colors">
+                                <td class="px-4 py-4 font-medium text-stone-900">Kegagalan hardware di lapangan</td>
+                                <td class="px-4 py-4"><span
+                                        class="bg-yellow-100 text-yellow-700 text-xs font-mono px-2 py-0.5 rounded">OPERASIONAL</span>
+                                </td>
+                                <td class="px-4 py-4 text-yellow-600 font-bold">SEDANG</td>
+                                <td class="px-4 py-4 text-stone-600">Garansi 1 tahun + respons teknisi &lt;24 jam +
+                                    remote diagnostic
+                                    via app</td>
+                            </tr>
+                            <tr class="bg-white hover:bg-stone-50 transition-colors rounded-b-lg">
+                                <td class="px-4 py-4 font-medium text-stone-900 rounded-bl-lg">Regulasi data & privasi
+                                    pengguna</td>
+                                <td class="px-4 py-4"><span
+                                        class="bg-stone-100 text-stone-700 text-xs font-mono px-2 py-0.5 rounded">REGULASI</span>
+                                </td>
+                                <td class="px-4 py-4 text-stone-600 font-bold">RENDAH</td>
+                                <td class="px-4 py-4 text-stone-600 rounded-br-lg">Kepatuhan UU PDP, enkripsi
+                                    end-to-end, data disimpan
+                                    di server lokal Indonesia</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </section>
+
+            <!-- Competitive Moat -->
+            <section class="space-y-6">
+                <div>
+                    <span class="text-xs font-mono text-[#0D6E52] font-semibold">COMPETITIVE ADVANTAGES</span>
+                    <h2 class="text-2xl font-bold text-stone-950 font-display mt-1">Keunggulan yang Sulit Ditiru (Moat)
+                    </h2>
+                </div>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <div class="bg-emerald-50 p-6 rounded-xl border border-emerald-100 space-y-2">
+                        <div class="font-bold text-[#0D6E52]"> Ekosistem Terpadu</div>
+                        <p class="text-sm text-stone-700">Hardware + Software + Layanan dalam satu ekosistem menciptakan
+                            lock-in
+                            yang natural — pengguna tidak mudah berpindah karena kehilangan data historis.</p>
+                    </div>
+                    <div class="bg-emerald-50 p-6 rounded-xl border border-emerald-100 space-y-2">
+                        <div class="font-bold text-[#0D6E52]"> Data Network Effect</div>
+                        <p class="text-sm text-stone-700">Semakin banyak kolam terhubung, semakin akurat model prediksi
+                            pakan. Data
+                            agregat menciptakan AI yang tidak bisa disalin kompetitor baru.</p>
+                    </div>
+                    <div class="bg-emerald-50 p-6 rounded-xl border border-emerald-100 space-y-2">
+                        <div class="font-bold text-[#0D6E52]">Pemahaman Konteks Lokal</div>
+                        <p class="text-sm text-stone-700">Produk dirancang spesifik untuk iklim tropis, spesies ikan
+                            lokal (lele,
+                            nila), dan kebiasaan pembudidaya Indonesia — bukan adaptasi produk impor.</p>
+                    </div>
+                    <div class="bg-emerald-50 p-6 rounded-xl border border-emerald-100 space-y-2">
+                        <div class="font-bold text-[#0D6E52]">Purna Jual Responsif</div>
+                        <p class="text-sm text-stone-700">Jaringan teknisi lokal dengan SLA &lt;24 jam memberikan
+                            kepercayaan yang
+                            tidak bisa ditandingi oleh produk impor tanpa dukungan lokal.</p>
+                    </div>
+                </div>
+            </section>
+
+            <!-- CTA -->
+            <div class="flex flex-wrap gap-4 justify-center pt-4">
+                <button onclick="navigateTo('page-gtm')"
+                    class="px-5 py-2.5 text-sm font-semibold text-stone-600 border border-stone-200 rounded-lg bg-white hover:bg-stone-50 transition-colors cursor-pointer">←
+                    Strategi GTM</button>
+                <button onclick="navigateTo('page-ringkasan-pasar')"
+                    class="px-5 py-2.5 text-sm font-semibold text-white bg-[#0D6E52] rounded-lg hover:bg-[#0a5841] transition-colors cursor-pointer">Mulai
+                    dari Awal ↩</button>
+            </div>
+        </div><!-- /page-risiko -->
+
+    </main>
+
+    <!-- ===== FOOTER ===== -->
+    <footer class="border-t border-stone-200 bg-stone-50 px-6 lg:px-10 py-8 mt-10">
+        <div class="max-w-[1280px] mx-auto flex flex-col md:flex-row justify-between items-start gap-6">
+            <div>
+                <div class="text-lg font-bold font-display text-stone-900">TebarPintar</div>
+                <div class="text-xs text-stone-500 mt-1 max-w-xs">Ekosistem IoT Akuakultur & Strategi Pemasaran Digital
+                    —
+                    Membangun Masa Depan Budidaya Indonesia.</div>
+            </div>
+            <div class="text-xs text-stone-400 font-mono text-right">
+                <div>© 2026 TebarPintar. All rights reserved.</div>
+                <div class="mt-1">v1.0 Version</div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- ===== INVESTOR MODAL ===== -->
+    <div id="investor-modal"
+        class="hidden-page fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/60 backdrop-blur-sm">
+        <div class="bg-white rounded-2xl shadow-2xl w-full max-w-md p-8 space-y-6 relative">
+            <button onclick="toggleInvestorModal()"
+                class="absolute top-4 right-4 text-stone-400 hover:text-stone-700 text-xl leading-none cursor-pointer bg-transparent border-0 p-1">✕</button>
+            <div>
+                <div class="font-mono text-xs text-[#0D6E52] font-bold">🗝️ INVESTOR DATA ROOM</div>
+                <h2 class="text-xl font-bold font-display text-stone-950 mt-1">Akses Data Eksklusif</h2>
+                <p class="text-sm text-stone-500 mt-1">Masukkan kode sandi yang diberikan tim TebarPintar.</p>
+            </div>
+            <!-- Auth Gate -->
+            <div id="auth-gate" class="space-y-4">
+                <div class="space-y-2">
+                    <label for="investor-pwd" class="text-xs font-medium text-stone-700 block">Kode Sandi
+                        Investor</label>
+                    <input id="investor-pwd" type="password" placeholder="Masukkan kode sandi…"
+                        class="w-full px-4 py-3 text-sm border border-stone-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#0D6E52] focus:border-transparent"
+                        onkeydown="if(event.key==='Enter') unlockInvestorData()" />
+                </div>
+                <button onclick="unlockInvestorData()"
+                    class="w-full px-4 py-3 text-sm font-semibold text-white bg-[#0D6E52] rounded-lg hover:bg-[#0a5841] transition-colors cursor-pointer">
+                    Buka Akses
+                </button>
+            </div>
+            <!-- Protected Data (hidden by default) -->
+            <div id="protected-data" class="hidden-page space-y-4">
+                <div
+                    class="bg-emerald-50 border border-emerald-200 rounded-lg p-4 text-sm text-emerald-800 font-medium">
+                    ✅ Akses
+                    diberikan. Selamat datang, Investor!</div>
+                <ul class="space-y-2 text-sm text-stone-700">
+                    <li class="flex gap-2"> <a href="#" class="text-[#0D6E52] hover:underline">Financial Projections
+                            2024–2027
+                            (PDF)</a></li>
+                    <li class="flex gap-2"> <a href="#" class="text-[#0D6E52] hover:underline">Cap Table & Equity
+                            Structure</a>
+                    </li>
+                    <li class="flex gap-2"> <a href="#" class="text-[#0D6E52] hover:underline">Pilot Program Results —
+                            Kolam A &
+                            B</a></li>
+                    <li class="flex gap-2"> <a href="#" class="text-[#0D6E52] hover:underline">Term Sheet Draft v2</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+
+    <!-- ===== SCRIPTS ===== -->
+    <script>
+        // ---- Page data ----
+        const PAGES = [
+            { id: 'page-ringkasan-pasar', label: 'Ringkasan & Pasar', num: 1 },
+            { id: 'page-produk-3d', label: 'Studio 3D', num: 2 },
+            { id: 'page-gtm', label: 'Strategi GTM', num: 3 },
+            { id: 'page-risiko', label: 'Mitigasi Risiko', num: 4 },
+        ];
+
+        let currentPageId = 'page-ringkasan-pasar';
+        let threeDInitialized = false;
+
+        // ---- Core navigation ----
+        function navigateTo(targetId) {
+            if (currentPageId === targetId) return;
+
+            // Hide all pages
+            document.querySelectorAll('.page-section').forEach(el => {
+                el.classList.add('hidden-page');
+            });
+
+            // Show target
+            const target = document.getElementById(targetId);
+            if (!target) {
+                console.warn('Page not found:', targetId);
+                return;
+            }
+            target.classList.remove('hidden-page');
+            currentPageId = targetId;
+
+            // Update nav active state
+            document.querySelectorAll('.nav-btn').forEach(btn => {
+                if (btn.dataset.target === targetId) {
+                    btn.classList.add('active');
+                } else {
+                    btn.classList.remove('active');
+                }
+            });
+
+            // Update page indicator
+            const page = PAGES.find(p => p.id === targetId);
+            if (page) {
+                document.getElementById('page-indicator').textContent = `Halaman ${page.num} / ${PAGES.length}`;
+            }
+
+            // Scroll to top
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+
+            // Initialize 3D when navigating to Studio 3D page
+            if (targetId === 'page-produk-3d') {
+                setTimeout(() => {
+                    if (!threeDInitialized && typeof init3D === 'function') {
+                        init3D();
+                        threeDInitialized = true;
+                    } else if (threeDInitialized) {
+                        // Force resize so canvas fills container correctly
+                        window.dispatchEvent(new Event('resize'));
+                    }
+                }, 100);
+            }
+        }
+
+        // Expose globally (for backward compat with inline onclick calls)
+        window.navigateTo = navigateTo;
+        window.navigateToPage = navigateTo;  // alias used in older code
+        window.switchPage = function (pageId) {
+            // Accept both short IDs like 'produk-3d' and full IDs like 'page-produk-3d'
+            const fullId = pageId.startsWith('page-') ? pageId : 'page-' + pageId;
+            navigateTo(fullId);
+        };
+
+        // ---- Mobile menu toggle ----
+        function toggleMobileMenu() {
+            document.getElementById('mobile-menu').classList.toggle('open');
+        }
+
+        // ---- Investor modal ----
+        function toggleInvestorModal() {
+            document.getElementById('investor-modal').classList.toggle('hidden-page');
+        }
+
+        // ---- Investor password ----
+        function unlockInvestorData() {
+            const pwd = document.getElementById('investor-pwd').value;
+            if (pwd === 'tebarpintar5m') {
+                document.getElementById('auth-gate').classList.add('hidden-page');
+                document.getElementById('protected-data').classList.remove('hidden-page');
+            } else {
+                alert('Akses Ditolak: Kode sandi yang Anda masukkan tidak valid.');
+            }
+        }
+
+        // ---- Init on load ----
+        document.addEventListener('DOMContentLoaded', () => {
+            // Set first page as active in nav
+            document.querySelectorAll('.nav-btn[data-target="page-ringkasan-pasar"]').forEach(btn => {
+                btn.classList.add('active');
+            });
+            // Make sure page 1 is visible, others hidden
+            document.querySelectorAll('.page-section').forEach(el => {
+                if (el.id !== 'page-ringkasan-pasar') el.classList.add('hidden-page');
+                else el.classList.remove('hidden-page');
+            });
+        });
+
+        // Close modal on backdrop click
+        document.getElementById('investor-modal').addEventListener('click', function (e) {
+            if (e.target === this) toggleInvestorModal();
+        });
+    </script>
+
+    <!-- 3D viewer (non-module so it can use global THREE from CDN) -->
+    <script src="./3d.js"></script>
+</body>
+
+</html>
