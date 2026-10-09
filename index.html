@@ -125,7 +125,10 @@
                     <path d="M19.59 6.69a4.83 4.83 0 0 1-3.77-4.25V2h-3.45v13.67a2.89 2.89 0 0 1-5.2 1.74 2.89 2.89 0 0 1 2.31-4.64 2.93 2.93 0 0 1 .88.13V9.4a6.84 6.84 0 0 0-1-.05A6.33 6.33 0 0 0 5 20.1a6.34 6.34 0 0 0 10.86-4.43v-7a8.16 8.16 0 0 0 4.77 1.52v-3.4a4.85 4.85 0 0 1-1-.1z"/>
                 </svg>
             </a>
-
+            <button onclick="toggleInvestorModal()"
+                class="inline-flex items-center gap-2 px-4 py-2 text-xs font-semibold text-white bg-[#0D6E52] rounded-lg hover:bg-[#0a5841] transition-colors cursor-pointer">
+                Investor Data Room
+            </button>
             <!-- Mobile hamburger -->
             <button onclick="toggleMobileMenu()"
                 class="lg:hidden p-2 rounded-lg text-stone-600 hover:bg-stone-100 transition-colors" aria-label="Menu">
@@ -700,17 +703,6 @@
                     class="px-5 py-2.5 text-sm font-semibold text-white bg-[#0D6E52] rounded-lg hover:bg-[#0a5841] transition-colors cursor-pointer">Mulai
                     dari Awal ↩</button>
             </div>
-        <!-- Email Contact Section -->
-        <div class="mt-16 bg-white border border-stone-200 rounded-xl p-8 text-center max-w-2xl mx-auto shadow-sm">
-            <h3 class="font-display font-bold text-2xl text-stone-900">Tertarik Berkolaborasi?</h3>
-            <p class="text-stone-600 mt-2">Kirimkan pesan kepada kami untuk berdiskusi lebih lanjut mengenai peluang investasi atau kerja sama.</p>
-            <a href="mailto:email-anda@domain.com" class="inline-flex items-center gap-2 px-6 py-3 mt-6 text-sm font-semibold text-white bg-[#0D6E52] rounded-lg hover:bg-[#0a5841] transition-colors cursor-pointer shadow-md hover:shadow-lg">
-                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"></path>
-                </svg>
-                Kirim Email ke Kami
-            </a>
-        </div>
         </div><!-- /page-risiko -->
 
     </main>
@@ -731,7 +723,53 @@
         </div>
     </footer>
 
-
+    <!-- ===== INVESTOR MODAL ===== -->
+    <div id="investor-modal"
+        class="hidden-page fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/60 backdrop-blur-sm">
+        <div class="bg-white rounded-2xl shadow-2xl w-full max-w-md p-8 space-y-6 relative">
+            <button onclick="toggleInvestorModal()"
+                class="absolute top-4 right-4 text-stone-400 hover:text-stone-700 text-xl leading-none cursor-pointer bg-transparent border-0 p-1">✕</button>
+            <div>
+                <div class="font-mono text-xs text-[#0D6E52] font-bold">🗝️ INVESTOR DATA ROOM</div>
+                <h2 class="text-xl font-bold font-display text-stone-950 mt-1">Akses Data Eksklusif</h2>
+                <p class="text-sm text-stone-500 mt-1">Masukkan kode sandi yang diberikan tim TebarPintar.</p>
+            </div>
+            <!-- Auth Gate -->
+            <div id="auth-gate" class="space-y-4">
+                <div class="space-y-2">
+                    <label for="investor-pwd" class="text-xs font-medium text-stone-700 block">Kode Sandi
+                        Investor</label>
+                    <input id="investor-pwd" type="password" placeholder="Masukkan kode sandi…"
+                        class="w-full px-4 py-3 text-sm border border-stone-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#0D6E52] focus:border-transparent"
+                        onkeydown="if(event.key==='Enter') unlockInvestorData()" />
+                </div>
+                <button onclick="unlockInvestorData()"
+                    class="w-full px-4 py-3 text-sm font-semibold text-white bg-[#0D6E52] rounded-lg hover:bg-[#0a5841] transition-colors cursor-pointer">
+                    Buka Akses
+                </button>
+            </div>
+            <!-- Protected Data (hidden by default) -->
+            <div id="protected-data" class="hidden-page space-y-4">
+                <div
+                    class="bg-emerald-50 border border-emerald-200 rounded-lg p-4 text-sm text-emerald-800 font-medium">
+                    ✅ Akses
+                    diberikan. Selamat datang, Investor!</div>
+                <ul class="space-y-2 text-sm text-stone-700">
+                    <li class="flex gap-2"> <a href="#" class="text-[#0D6E52] hover:underline">Financial Projections
+                            2024–2027
+                            (PDF)</a></li>
+                    <li class="flex gap-2"> <a href="#" class="text-[#0D6E52] hover:underline">Cap Table & Equity
+                            Structure</a>
+                    </li>
+                    <li class="flex gap-2"> <a href="#" class="text-[#0D6E52] hover:underline">Pilot Program Results —
+                            Kolam A &
+                            B</a></li>
+                    <li class="flex gap-2"> <a href="#" class="text-[#0D6E52] hover:underline">Term Sheet Draft v2</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
 
     <!-- ===== SCRIPTS ===== -->
     <script>
@@ -810,7 +848,21 @@
             document.getElementById('mobile-menu').classList.toggle('open');
         }
 
+        // ---- Investor modal ----
+        function toggleInvestorModal() {
+            document.getElementById('investor-modal').classList.toggle('hidden-page');
+        }
 
+        // ---- Investor password ----
+        function unlockInvestorData() {
+            const pwd = document.getElementById('investor-pwd').value;
+            if (pwd === 'tebarpintar5m') {
+                document.getElementById('auth-gate').classList.add('hidden-page');
+                document.getElementById('protected-data').classList.remove('hidden-page');
+            } else {
+                alert('Akses Ditolak: Kode sandi yang Anda masukkan tidak valid.');
+            }
+        }
 
         // ---- Init on load ----
         document.addEventListener('DOMContentLoaded', () => {
@@ -825,6 +877,10 @@
             });
         });
 
+        // Close modal on backdrop click
+        document.getElementById('investor-modal').addEventListener('click', function (e) {
+            if (e.target === this) toggleInvestorModal();
+        });
     </script>
 
     <!-- 3D viewer (non-module so it can use global THREE from CDN) -->
